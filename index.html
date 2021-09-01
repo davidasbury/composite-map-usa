@@ -1,0 +1,509 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Create an app with composite views | Sample | ArcGIS API for JavaScript 4.20</title>
+
+    <style>
+      html,
+      body,
+      #mainViewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    .esri-ui-bottom-left {
+      height: 45% !important;
+      width: 43% !important;
+    }
+    .esri-component {
+      box-shadow: none !important;
+    }
+    #akViewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      clip-path: polygon(31% 35%, 60% 35%, 98.5% 55%, 98.5% 100%, 0% 100%, 0% 81.5%, 31% 81.5%);
+      background-color: rgba(240, 240, 240);
+    }
+    #hiViewDiv {
+      padding: 0;
+      margin: 0;
+      height: 45%;
+      width: 60%;
+      clip-path: polygon(0% 0%, 100% 70%, 100% 100%, 0% 100%);
+      background-color: rgba(240, 240, 240);
+    }
+    #leftInsetDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0);
+    }
+    #islandsViewDiv {
+      padding: 0;
+      height: 80%;
+      width: 30%;
+    }
+    #gunmViewDiv {
+      padding: 0;
+      margin: 0;
+      height: 88%;
+      width: 100%;
+      clip-path: polygon(0% 0%,100% 0%,100% 97%,0% 97%);
+      background-color: rgba(240, 240, 240);
+    }
+    #asViewDiv {
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      clip-path: polygon(0% 87%,100% 87%,100% 100%,0% 100%);
+      background-color: rgba(240, 240, 240);
+    }
+    #prViewDiv {
+      position: absolute;
+      padding: 0;
+      margin: 0;
+      left: 60%;
+      bottom: 3%;
+      height: 7%;
+      width: 10%;
+      background-color: rgba(240, 240, 240);
+    }  
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.20/"></script>
+
+    <script>
+      require(["esri/Map", "esri/WebMap","esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/Legend","esri/geometry/SpatialReference","esri/geometry/Extent","esri/widgets/Expand"], function(
+        Map,
+        WebMap, 
+        MapView,
+        FeatureLayer,
+        Legend,
+        SpatialReference,
+        Extent,
+        Expand
+      ) {
+       //Projection parameters              
+      {
+        // Albers Equal Area Projection for continental US
+        var conusSR = new SpatialReference('PROJCS["USA_Contiguous_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["central_meridian",-96],PARAMETER["Standard_Parallel_1",29.5],PARAMETER["Standard_Parallel_2",45.5],PARAMETER["latitude_of_origin",37.5],UNIT["Meter",1]]');
+        // Albers Equal Area projection for Alaska inset
+        var akSR = new SpatialReference('PROJCS["Alaska_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["central_meridian",-148],PARAMETER["Standard_Parallel_1",55],PARAMETER["Standard_Parallel_2",65],PARAMETER["latitude_of_origin",50],UNIT["Meter",1]]');
+        // Albers Equal Area projection for Hawaii inset
+        var hiSR = new SpatialReference('PROJCS["Hawaii_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["central_meridian",-157],PARAMETER["Standard_Parallel_1",8],PARAMETER["Standard_Parallel_2",18],PARAMETER["latitude_of_origin",13],UNIT["Meter",1]]');
+        // Albers Equal Area Projection for Puerto Rico inset
+        var prSR = new SpatialReference('PROJCS["ProjWiz_Custom_Albers",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.0174532925199433]],PROJECTION["Albers"], PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",-65.75],PARAMETER["Standard_Parallel_1",17],PARAMETER["Standard_Parallel_2",19],PARAMETER["Latitude_Of_Origin",18],UNIT["Meter",1.0]]');
+        // Transverse Cylindrical Equal Area Projection for Guam/Northern Marianas inset
+        var gunmSR = new SpatialReference('PROJCS["ProjWiz_Custom_Transverse_Cylindrical_Equal_Area",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],  UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Cylindrical_Equal_Area"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-215], PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]');
+        // Cylindrical Equal Area Projection for American Samoa inset
+        var asSR = new SpatialReference('PROJCS["ProjWiz_Custom_Cylindrical_Equal_Area",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Cylindrical_Equal_Area"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-170.7],PARAMETER["Standard_Parallel_1",7.5],UNIT["Meter",1.0]]');
+      }       
+        var layer = new FeatureLayer({
+          portalItem: {
+            id:"dd834ef507244f96baa6b29eab5dd396"
+          },
+          outFields: ["CountyName", "StateAbbr"],
+          popupTemplate: {
+            overwriteActions: "true",
+            title: "{CountyName}, {StateAbbr}"
+          },
+          title: "U.S. counties"
+        });
+
+      var layerMap = new Map({
+         layers: [layer]
+        });
+      var blankMap = new Map({
+        layers: []
+       });
+        
+       const webmap = new WebMap ({
+         portalItem: { // autocasts as new PortalItem()
+           id: "c51eff4a351342b18b3d853018c07558"
+         }
+       });
+
+// use jsapi map constructed with layers or webmap        
+      var map = layerMap; //webmap
+           
+      var mainView = new MapView({
+          container: "mainViewDiv",
+          map: map,
+          popup: {
+            highlightEnabled: false,
+            dockEnabled: true,
+            dockOptions: {
+              breakpoint: false,
+              buttonEnabled: false,
+              position: "top-center"
+            }
+          },
+        extent: {
+          xmin: -2600000,
+          ymin: -1400000,
+          xmax: 2500000,
+          ymax: 1600000,
+          spatialReference: conusSR
+          },
+          spatialReference: conusSR,
+          ui: {
+            components: ["attribution"]
+          }
+        });
+        
+        const cardLegend = new Expand({
+          content: new Legend({
+            view: mainView,
+            style: "card"
+            }),
+          view: mainView,
+          expanded: false
+          })
+        mainView.ui.add(cardLegend, "bottom-right");
+       
+
+      var leftInsetView = new MapView({
+        container: "leftInsetDiv",
+        map: blankMap,
+        extent: {
+          xmin: -2600000,
+          ymin: -1400000,
+          xmax: 2500000,
+          ymax: 1600000,
+          spatialReference: conusSR
+        },
+        spatialReference: conusSR,
+        ui: {
+          components: []
+        }
+      });
+        mainView.ui.add("leftInsetDiv", "bottom-left");
+      
+      var islandsView = new MapView({
+        container: "islandsViewDiv",
+        map: blankMap,
+        extent: {
+          xmin: -500000,
+          ymin: 1450000,
+          xmax: 450000,
+          ymax: 1800000,
+          spatialReference: asSR
+        },
+        spatialReference: asSR,
+        /*          {
+                    // Transverse_Cylindrical_Equal_Area
+                    },
+        */
+        ui: {
+          components: []
+        }
+      });
+        leftInsetView.ui.add("islandsViewDiv");     
+ 
+      var asView = new MapView({
+        container: "asViewDiv",
+        map: map,
+          extent: {
+            xmin: -120000,
+            ymin: -1600000,
+            xmax:  325000, 
+            ymax: -660000,
+            spatialReference: asSR
+          },
+        spatialReference: asSR,
+        /*          {
+                    // Cylindrical_Equal_Area
+                    },
+        */
+        ui: {
+          components: []
+        }
+      });
+        islandsView.ui.add("asViewDiv");
+     
+      var gunmView = new MapView({
+        container: "gunmViewDiv",
+        map: map,
+        extent: {
+          xmin: -150000,
+          ymin: 1395000,
+          xmax: 250000,
+          ymax: 2300000,
+          spatialReference: gunmSR
+        },
+        spatialReference: gunmSR,
+        /*          {
+                    // Transverse_Cylindrical_Equal_Area
+                    },
+        */
+        ui: {
+          components: []
+        }
+      });
+        islandsView.ui.add("gunmViewDiv");
+      
+      var akView = new MapView({
+          container: "akViewDiv",
+          map: map,
+          extent: {
+            xmin: -2600000,
+            ymin: 500000,
+            xmax: 1200000,
+            ymax: 4000000,
+            spatialReference: akSR
+            /*           {
+              wkid: 102006
+            }
+           */
+          },
+          spatialReference: akSR,
+            ui: {
+              components: []
+            }
+          });
+        leftInsetView.ui.add("akViewDiv");
+
+      var hiView = new MapView({
+          container: "hiViewDiv",
+          map: map,
+          extent: {
+            xmin: -500000,
+            ymin: 680000,
+            xmax: 450000,
+            ymax: 1100000,
+            spatialReference: hiSR
+           /*          {
+                 wkid: 102007
+                 }
+           */         
+          },
+          spatialReference: hiSR,
+            ui: {
+              components: []
+            }
+          });
+        mainView.ui.add("hiViewDiv", "bottom-left");
+     
+      var prView = new MapView({
+        container: "prViewDiv",
+        map: map,
+        extent: {
+          xmin: -190000,
+          ymin: 9500,
+          xmax: 150000,
+          ymax: 53500,
+          spatialReference: prSR
+        },
+        spatialReference: prSR,
+        // Albers Equal Area
+        ui: {
+          components: []
+        }
+      });
+      mainView.ui.add("prViewDiv","manual")  
+
+        mainView
+          .when(maintainFixedExtent)
+          .then(disableNavigation)
+          .then(disablePopupOnClick)
+          .then(enableHighlightOnPointerMove);
+        akView
+          .when(disableNavigation)
+          .then(disablePopupOnClick)
+          .then(enableHighlightOnPointerMove);
+        hiView
+          .when(disableNavigation)
+          .then(disablePopupOnClick)
+          .then(enableHighlightOnPointerMove);
+        gunmView
+          .when(disableNavigation)
+          .then(disablePopupOnClick)
+          .then(enableHighlightOnPointerMove);
+        asView
+          .when(disableNavigation)
+          .then(disablePopupOnClick)
+          .then(enableHighlightOnPointerMove);
+        prView
+          .when(disableNavigation)
+          .then(disablePopupOnClick)
+          .then(enableHighlightOnPointerMove);        
+
+        function maintainFixedExtent(view) {
+          var fixedExtent = view.extent.clone();
+          // keep a fixed extent in the view
+          // when the view size changes
+          view.on("resize", function() {
+            view.extent = fixedExtent;
+          });
+          return view;
+          }
+/*
+        mainView.watch("widthBreakpoint", function(breakpoint) {
+          switch (breakpoint) {
+            case "xsmall":
+              updateView(true);
+              break;
+            case "small":
+            case "medium":
+            case "large":
+            case "xlarge":
+              updateView(false);
+              break;
+            default:
+           }
+        });
+                function updateView(isMobile) {
+          setTitleMobile(isMobile);
+          setLegendMobile(isMobile);
+        }
+
+        function setTitleMobile(isMobile) {
+          if (isMobile) {
+            document.querySelector("#titleDiv").classList.add("invisible");
+            view.padding = {
+              top: 0
+            };
+          } else {
+            document.querySelector("#titleDiv").classList.remove("invisible");
+            view.padding = {
+              top: 55
+            };
+          }
+        }
+
+        function setLegendMobile(isMobile) {
+          var toAdd = isMobile ? expandLegend : legend;
+          var toRemove = isMobile ? legend : expandLegend;
+
+          view.ui.remove(toRemove);
+          view.ui.add(toAdd, "bottom-right");
+        }
+ */       
+        let highlight = null;
+        let lastHighlight = null;
+
+        function enableHighlightOnPointerMove(view) {
+          view.whenLayerView(layer).then(function(layerView) {
+            view.on("pointer-move", function(event) {
+              view.hitTest(event).then(function(response) {
+
+                lastHighlight = highlight;
+
+                // if a feature is returned, highlight it
+                // and display its attributes in the popup
+                // if no features are returned, then close the popup
+                var id = null;
+
+                if (response.results.length) {
+                  var feature = response.results.filter(function(result) {
+                    return result.graphic.layer === layer;
+                  })[0].graphic;
+
+                  feature.popupTemplate = layer.popupTemplate;
+                  id = feature.attributes.OBJECTID;
+                  highlight = layerView.highlight([id]);
+                  var selectionId = mainView.popup.selectedFeature
+                    ? mainView.popup.selectedFeature.attributes.OBJECTID
+                    : null;
+
+                  if (highlight && id !== selectionId) {
+                    mainView.popup.open({
+                      features: [feature]
+                    });
+                  }
+                } else {
+                  if (mainView.popup.visible) {
+                    mainView.popup.close();
+                    mainView.popup.clear();
+                  }
+                }
+
+                // remove the previous highlight
+                if (lastHighlight) {
+                  lastHighlight.remove();
+                  lastHighlight = null;
+                }
+              });
+            });
+          });
+        
+//set inset maps to have same scale as main map (except for Alaska)
+      akView.scale = view.scale  * 2.8571;
+      hiView.scale = view.scale;
+      prView.scale = view.scale;  
+      gunmView.scale = view.scale;
+      asView.scale = view.scale;
+        }
+        // disables all navigation in the view
+        function disableNavigation(view) {
+          view.popup.dockEnabled = true;
+
+          // Removes the zoom action on the popup
+          view.popup.actions = [];
+
+          // stops propagation of default behavior when an event fires
+          function stopEvtPropagation(event) {
+            event.stopPropagation();
+          }
+
+          // disable mouse wheel scroll zooming on the view
+          view.navigation.mouseWheelZoomEnabled = false;
+
+          // disable zooming via double-click on the view
+          view.on("double-click", stopEvtPropagation);
+
+          // disable zooming out via double-click + Control on the view
+          view.on("double-click", ["Control"], stopEvtPropagation);
+
+          // disables pinch-zoom and panning on the view
+          view.navigation.browserTouchPanEnabled = false;
+          view.on("drag", stopEvtPropagation);
+
+          // disable the view's zoom box to prevent the Shift + drag
+          // and Shift + Control + drag zoom gestures.
+          view.on("drag", ["Shift"], stopEvtPropagation);
+          view.on("drag", ["Shift", "Control"], stopEvtPropagation);
+
+          // prevents zooming and rotation with the indicated keys
+          view.on("key-down", function(event) {
+            var prohibitedKeys = ["+", "-", "_", "=", "a", "d"];
+            var keyPressed = event.key.toLowerCase();
+            if (prohibitedKeys.indexOf(keyPressed) !== -1) {
+              event.stopPropagation();
+            }
+          });
+
+          return view;
+        }
+
+        // prevents the user from opening the popup with click
+
+        function disablePopupOnClick(view) {
+          view.on("click", function(event) {
+            event.stopPropagation();
+          });
+          return view;
+        }
+        
+      });
+
+      </script>
+  </head>
+
+  <body>
+    <div id="mainViewDiv"></div>
+    <div id="leftInsetDiv" class="esri-widget"></div>
+    <div id="islandsViewDiv" class="esri-widget"></div>
+    <div id="asViewDiv" class="esri-widget"</div>
+    <div id="gunmViewDiv" class="esri-widget"></div>
+    <div id="akViewDiv" class="esri-widget"></div>
+    <div id="hiViewDiv" class="esri-widget"></div>
+    <div id="prViewDiv" class="esri-widget"></div>
+  </body>
+</html>
