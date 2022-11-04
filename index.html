@@ -17,6 +17,10 @@
       height: 45% !important;
       width: 43% !important;
     }
+    .esri-ui-bottom-right {
+      height: 50%;
+      width: 50%;
+    }
     .esri-component {
       box-shadow: none !important;
     }
@@ -39,6 +43,7 @@
     #leftInsetDiv {
       padding: 0;
       margin: 0;
+      bottom: 60%;
       height: 100%;
       width: 100%;
       background-color: rgba(0, 0, 0, 0);
@@ -67,19 +72,17 @@
       position: absolute;
       padding: 0;
       margin: 0;
-      left: 85%;
-      bottom: 2%;
+      left: 70%;
       height: 7%;
-      width: 10%;
+      width: 20%;
       background-color: rgba(240, 240, 240);
     }
     #overViewDiv {
       position: absolute;
       padding: 0;
       margin: 0;
-      left: 60%;
-      bottom: 2%;
-      height: 10%;
+      left: 33%;
+      height: 15%;
       aspect-ratio: 1/1;
       background-color: rgb(240,240,240);
     }  
@@ -146,40 +149,6 @@
 // use jsapi map constructed with layers or webmap        
       var map = layerMap; //webmap
 
-      var overView = new SceneView({
-        container: "overViewDiv",
-        map:overViewMap,
-        viewingMode: "global",
-            alphaCompositingEnabled: true,  
-            environment:{
-                background: {
-                  type: "color",
-                  color: [247, 247, 247, 1]
-                },
-                lighting: {
-                  type: "virtual"
-                },
-                atmosphereEnabled: false,
-                starsEnabled:false
-              },
-            camera: {
-              position: {
-                spatialReference: {
-                  latestWkid: 3857,
-                  wkid: 102100
-                },
-                // Get center point from main map (after transform)
-                x: 0,
-                y: 0,
-                z: 17000000
-              },
-              heading: 0,
-              tilt: 0
-            }
-      });
-      // Remove the default scene widgets
-      overView.ui.components = [];
-      
       var mainView = new MapView({
           container: "mainViewDiv",
           map: map,
@@ -354,7 +323,42 @@
           components: []
         }
       });
-      mainView.ui.add("prViewDiv","manual");
+      mainView.ui.add("prViewDiv","bottom-right");
+
+      var overView = new SceneView({
+        container: "overViewDiv",
+        map:overViewMap,
+        viewingMode: "global",
+            alphaCompositingEnabled: true,  
+            environment:{
+                background: {
+                  type: "color",
+                  color: [247, 247, 247, 1]
+                },
+                lighting: {
+                  type: "virtual"
+                },
+                atmosphereEnabled: false,
+                starsEnabled:false
+              },
+            camera: {
+              position: {
+                spatialReference: {
+                  latestWkid: 3857,
+                  wkid: 102100
+                },
+                // Get center point from main map (after transform)
+                x: 0,
+                y: 0,
+                z: 17000000
+              },
+              heading: 0,
+              tilt: 0
+            }
+      });
+      // Remove the default scene widgets
+      overView.ui.components = [];
+      mainView.ui.add("overViewDiv", "bottom-right");
 
         mainView
           .when(maintainFixedExtent)
@@ -547,7 +551,7 @@
   <body>
     <div id="mainViewDiv"></div>
     <div id="leftInsetDiv" class="esri-widget"></div>
-    <div id="islandsViewDiv" class="esri-widget"></div>
+    <div id="islandsViewDiv" class="esri-widget"></div> 
     <div id="asViewDiv" class="esri-widget"></div>
     <div id="gunmViewDiv" class="esri-widget"></div>
     <div id="akViewDiv" class="esri-widget"></div>
