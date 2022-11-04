@@ -89,7 +89,7 @@
     <script src="https://js.arcgis.com/4.20/"></script>
 
     <script>
-      require(["esri/Map", "esri/WebMap","esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/Legend","esri/geometry/SpatialReference","esri/geometry/Extent","esri/widgets/Expand"], function(
+      require(["esri/Map", "esri/WebMap","esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/Legend","esri/geometry/SpatialReference","esri/geometry/Extent","esri/widgets/Expand","esri/views/SceneView"], function(
         Map,
         WebMap, 
         MapView,
@@ -97,7 +97,8 @@
         Legend,
         SpatialReference,
         Extent,
-        Expand
+        Expand,
+        SceneView
       ) {
        //Projection parameters              
       {
@@ -128,10 +129,13 @@
 
       var layerMap = new Map({
          layers: [layer]
-        });
+      });
       var blankMap = new Map({
         layers: []
-       });
+      });
+      var overViewMap = new Map({
+        basemap: 'gray-vector'
+      })
         
        const webmap = new WebMap ({
          portalItem: { // autocasts as new PortalItem()
@@ -141,7 +145,41 @@
 
 // use jsapi map constructed with layers or webmap        
       var map = layerMap; //webmap
-           
+
+      var overView = new SceneView({
+        container: "overViewDiv",
+        map:overViewMap,
+        viewingMode: "global",
+            alphaCompositingEnabled: true,  
+            environment:{
+                background: {
+                  type: "color",
+                  color: [247, 247, 247, 1]
+                },
+                lighting: {
+                  type: "virtual"
+                },
+                atmosphereEnabled: false,
+                starsEnabled:false
+              },
+            camera: {
+              position: {
+                spatialReference: {
+                  latestWkid: 3857,
+                  wkid: 102100
+                },
+                // Get center point from main map (after transform)
+                x: 0,
+                y: 0,
+                z: 17000000
+              },
+              heading: 0,
+              tilt: 0
+            }
+      });
+      // Remove the default scene widgets
+      overView.ui.components = [];
+      
       var mainView = new MapView({
           container: "mainViewDiv",
           map: map,
@@ -316,7 +354,7 @@
           components: []
         }
       });
-      mainView.ui.add("prViewDiv","manual")  
+      mainView.ui.add("prViewDiv","manual");
 
         mainView
           .when(maintainFixedExtent)
