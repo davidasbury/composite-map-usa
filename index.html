@@ -92,7 +92,7 @@
     <script src="https://js.arcgis.com/4.20/"></script>
 
     <script>
-      require(["esri/Map", "esri/WebMap","esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/Legend","esri/geometry/SpatialReference","esri/geometry/Extent","esri/widgets/Expand","esri/views/SceneView"], function(
+      require(["esri/Map", "esri/WebMap","esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/Legend","esri/geometry/SpatialReference","esri/geometry/Extent","esri/widgets/Expand","esri/views/SceneView","esri/WebScene"], function(
         Map,
         WebMap, 
         MapView,
@@ -101,7 +101,8 @@
         SpatialReference,
         Extent,
         Expand,
-        SceneView
+        SceneView,
+        WebScene
       ) {
        //Projection parameters              
       {
@@ -140,11 +141,16 @@
         basemap: 'gray-vector'
       })
         
-       const webmap = new WebMap ({
+      const webmap = new WebMap ({
          portalItem: { // autocasts as new PortalItem()
            id: "c51eff4a351342b18b3d853018c07558"
          }
        });
+      const webscene = new WebScene({
+        portalItem: {
+          id:"236b1801808646209b01c80e70c0c7ef"
+        }
+      });
 
 // use jsapi map constructed with layers or webmap        
       var map = layerMap; //webmap
@@ -327,7 +333,7 @@
 
       var overView = new SceneView({
         container: "overViewDiv",
-        map:overViewMap,
+        map:webscene,
         viewingMode: "global",
             alphaCompositingEnabled: true,  
             environment:{
@@ -341,20 +347,18 @@
                 atmosphereEnabled: false,
                 starsEnabled:false
               },
-            camera: {
+/*            camera: {
               position: {
                 spatialReference: {
                   latestWkid: 3857,
                   wkid: 102100
                 },
                 // Get center point from main map (after transform)
-                x: 0,
-                y: 0,
                 z: 17000000
               },
               heading: 0,
               tilt: 0
-            }
+            }*/
       });
       // Remove the default scene widgets
       overView.ui.components = [];
