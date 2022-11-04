@@ -130,9 +130,25 @@
           },
           title: "U.S. counties"
         });
+        var backgroundLayer = new FeatureLayer({
+          portalItem:{
+            id:"75ea506613f847e48ab0f91e93ac538d"
+          },
+          renderer: {
+            type: "simple", // autocasts as new SimpleRenderer()
+            symbol: {
+              type: "simple-fill", // autocasts as new SimpleFillSymbol()
+              color: [240, 240, 240, 0.5],
+              outline: {
+                color: [150, 150, 150, 0],
+                width: 0
+              }
+            }
+          }
+        })
 
       var layerMap = new Map({
-         layers: [layer]
+         layers: [backgroundLayer,layer]
       });
       var blankMap = new Map({
         layers: []
