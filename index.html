@@ -79,49 +79,147 @@
     }
     #overViewDiv {
       position: absolute;
-      padding: 0;
-      margin: 0;
-      left: 29%;
-      height: 25%;
-      aspect-ratio: 1/1;
-      background-color: rgb(250,250,250);
+      bottom: 3%;
+      left: 58%;
+      width: 16%;
+      height: 15%;
+      border-radius: 50%;
+      background-color: transparent;
+      box-shadow: 8px 10px 10px grey;
+      z-index: 1;
+      overflow: hidden;
     }  
     </style>
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.20/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.24/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.24/"></script>
+    <script type="module" src=https://js.arcgis.com/calcite-components/1.0.0-beta.95/calcite.esm.js></script>
+    <link rel="stylesheet" type="text/css" href=https://js.arcgis.com/calcite-components/1.0.0-beta.95/calcite.css />
 
-    <script>
-      require(["esri/Map", "esri/WebMap","esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/Legend","esri/geometry/SpatialReference","esri/geometry/Extent","esri/widgets/Expand","esri/views/SceneView","esri/WebScene","esri/popup/FieldInfo"], function(
-        Map,
-        WebMap, 
-        MapView,
-        FeatureLayer,
-        Legend,
-        SpatialReference,
-        Extent,
-        Expand,
-        SceneView,
-        WebScene,
-        FieldInfo
-      ) {
-       //Projection parameters              
+    <script type="module">
+      import MapView from 'https://js.arcgis.com/4.24/@arcgis/core/views/MapView.js';
+      import WebMap from "https://js.arcgis.com/4.24/@arcgis/core/WebMap.js";
+      import Map from 'https://js.arcgis.com/4.24/@arcgis/core/Map.js';
+      import FeatureLayer from "https://js.arcgis.com/4.24/@arcgis/core/layers/FeatureLayer.js";
+      import Legend from "https://js.arcgis.com/4.24/@arcgis/core/widgets/Legend.js";
+      import Expand from "https://js.arcgis.com/4.24/@arcgis/core/widgets/Expand.js";
+      import WebScene from "https://js.arcgis.com/4.24/@arcgis/core/WebScene.js";
+      import FieldInfo from "https://js.arcgis.com/4.24/@arcgis/core/popup/FieldInfo.js";
+      import SpatialReference from 'https://js.arcgis.com/4.24/@arcgis/core/geometry/SpatialReference.js';
+      import * as reactiveUtils from 'https://js.arcgis.com/4.24/@arcgis/core/core/reactiveUtils.js';
+      import SceneView from "https://js.arcgis.com/4.24/@arcgis/core/views/SceneView.js";
+      import Graphic from "https://js.arcgis.com/4.24/@arcgis/core/Graphic.js";
+      import * as promiseUtils from "https://js.arcgis.com/4.24/@arcgis/core/core/promiseUtils.js";
+      import * as projection from "https://js.arcgis.com/4.24/@arcgis/core/geometry/projection.js";
+      import Basemap from "https://js.arcgis.com/4.24/@arcgis/core/Basemap.js";
+      import Extent from "https://js.arcgis.com/4.24/@arcgis/core/geometry/Extent.js";
+      import Point from "https://js.arcgis.com/4.24/@arcgis/core/geometry/Point.js";
+      import * as urlUtils from "https://js.arcgis.com/4.24/@arcgis/core/core/urlUtils.js";
+
+      // Load the projection engine  
+        projection.load().then(function() {
+        //Projection parameters              
       {
         // Albers Equal Area Projection for continental US
-        var conusSR = new SpatialReference('PROJCS["USA_Contiguous_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["central_meridian",-96],PARAMETER["Standard_Parallel_1",29.5],PARAMETER["Standard_Parallel_2",45.5],PARAMETER["latitude_of_origin",37.5],UNIT["Meter",1]]');
+        var conusSR = new SpatialReference(
+          'PROJCS["USA_Contiguous_Albers_Equal_Area_Conic", \
+          GEOGCS["GCS_WGS_1984", \
+          DATUM["D_WGS_1984", \
+          SPHEROID["WGS_1984",6378137.0,298.257223563]], \
+          PRIMEM["Greenwich",0], \
+          UNIT["Degree",0.0174532925199433]], \
+          PROJECTION["Albers"], \
+          PARAMETER["False_Easting",0], \
+          PARAMETER["False_Northing",0], \
+          PARAMETER["central_meridian",-96], \
+          PARAMETER["Standard_Parallel_1",29.5], \
+          PARAMETER["Standard_Parallel_2",45.5], \
+          PARAMETER["latitude_of_origin",37.5], \
+          UNIT["Meter",1]]');
         // Albers Equal Area projection for Alaska inset
-        var akSR = new SpatialReference('PROJCS["Alaska_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["central_meridian",-148],PARAMETER["Standard_Parallel_1",55],PARAMETER["Standard_Parallel_2",65],PARAMETER["latitude_of_origin",50],UNIT["Meter",1]]');
+        var akSR = new SpatialReference(
+          'PROJCS["Alaska_Albers_Equal_Area_Conic", \
+          GEOGCS["GCS_WGS_1984", \
+          DATUM["D_WGS_1984", \
+          SPHEROID["WGS_1984",6378137.0,298.257223563]], \
+          PRIMEM["Greenwich",0], \
+          UNIT["Degree",0.0174532925199433]], \
+          PROJECTION["Albers"], \
+          PARAMETER["False_Easting",0], \
+          PARAMETER["False_Northing",0], \
+          PARAMETER["central_meridian",-148], \
+          PARAMETER["Standard_Parallel_1",55], \
+          PARAMETER["Standard_Parallel_2",65], \
+          PARAMETER["latitude_of_origin",50], \
+          UNIT["Meter",1]]');
         // Albers Equal Area projection for Hawaii inset
-        var hiSR = new SpatialReference('PROJCS["Hawaii_Albers_Equal_Area_Conic",GEOGCS["GCS_North_American_1983",DATUM["D_North_American_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Albers"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["central_meridian",-157],PARAMETER["Standard_Parallel_1",8],PARAMETER["Standard_Parallel_2",18],PARAMETER["latitude_of_origin",13],UNIT["Meter",1]]');
+        var hiSR = new SpatialReference(
+          'PROJCS["Hawaii_Albers_Equal_Area_Conic", \
+          GEOGCS["GCS_WGS_1984", \
+          DATUM["D_WGS_1984", \
+          SPHEROID["WGS_1984",6378137.0,298.257223563]], \
+          PRIMEM["Greenwich",0], \
+          UNIT["Degree",0.0174532925199433]], \
+          PROJECTION["Albers"], \
+          PARAMETER["False_Easting",0], \
+          PARAMETER["False_Northing",0], \
+          PARAMETER["central_meridian",-157], \
+          PARAMETER["Standard_Parallel_1",8], \
+          PARAMETER["Standard_Parallel_2",18], \
+          PARAMETER["latitude_of_origin",13], \
+          UNIT["Meter",1]]');
         // Albers Equal Area Projection for Puerto Rico inset
-        var prSR = new SpatialReference('PROJCS["ProjWiz_Custom_Albers",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.0174532925199433]],PROJECTION["Albers"], PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",-65.75],PARAMETER["Standard_Parallel_1",17],PARAMETER["Standard_Parallel_2",19],PARAMETER["Latitude_Of_Origin",18],UNIT["Meter",1.0]]');
+        var prSR = new SpatialReference(
+          'PROJCS["ProjWiz_Custom_Albers", \
+          GEOGCS["GCS_WGS_1984", \
+          DATUM["D_WGS_1984", \
+          SPHEROID["WGS_1984",6378137.0,298.257223563]], \
+          PRIMEM["Greenwich",0], \
+          UNIT["Degree",0.0174532925199433]], \
+          PROJECTION["Albers"], \
+          PARAMETER["False_Easting",0], \
+          PARAMETER["False_Northing",0], \
+          PARAMETER["Central_Meridian",-65.75], \
+          PARAMETER["Standard_Parallel_1",17], \
+          PARAMETER["Standard_Parallel_2",19], \
+          PARAMETER["Latitude_Of_Origin",18], \
+          UNIT["Meter",1.0]]');
         // Transverse Cylindrical Equal Area Projection for Guam/Northern Marianas inset
-        var gunmSR = new SpatialReference('PROJCS["ProjWiz_Custom_Transverse_Cylindrical_Equal_Area",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],  UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Cylindrical_Equal_Area"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-215], PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]');
+        var gunmSR = new SpatialReference(
+          'PROJCS["ProjWiz_Custom_Transverse_Cylindrical_Equal_Area", \
+          GEOGCS["GCS_WGS_1984", \
+          DATUM["D_WGS_1984", \
+          SPHEROID["WGS_1984",6378137.0,298.257223563]], \
+          PRIMEM["Greenwich",0.0], \
+          UNIT["Degree",0.0174532925199433]], \
+          PROJECTION["Transverse_Cylindrical_Equal_Area"], \
+          PARAMETER["False_Easting",0.0], \
+          PARAMETER["False_Northing",0.0], \
+          PARAMETER["Central_Meridian",-215], \
+          PARAMETER["Scale_Factor",1.0], \
+          PARAMETER["Latitude_Of_Origin",0.0], \
+          UNIT["Meter",1.0]]');
         // Cylindrical Equal Area Projection for American Samoa inset
-        var asSR = new SpatialReference('PROJCS["ProjWiz_Custom_Cylindrical_Equal_Area",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Cylindrical_Equal_Area"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",-170.7],PARAMETER["Standard_Parallel_1",7.5],UNIT["Meter",1.0]]');
+        var asSR = new SpatialReference(
+          'PROJCS["ProjWiz_Custom_Cylindrical_Equal_Area", \
+          GEOGCS["GCS_WGS_1984", \
+          DATUM["D_WGS_1984", \
+          SPHEROID["WGS_1984",6378137.0,298.257223563]], \
+          PRIMEM["Greenwich",0.0], \
+          UNIT["Degree",0.0174532925199433]], \
+          PROJECTION["Cylindrical_Equal_Area"], \
+          PARAMETER["False_Easting",0.0], \
+          PARAMETER["False_Northing",0.0], \
+          PARAMETER["Central_Meridian",-170.7], \
+          PARAMETER["Standard_Parallel_1",7.5], \
+          UNIT["Meter",1.0]]');
       }       
 
-        var layer = new FeatureLayer({
+        // Get parameters from the url: (1) ?layerID= and (2) &overview=
+        // Example <baseurl>?layerID=d227d6a4ee3e4d2d87eb9843ee14dd87&overview=67ab7f7c535c4687b6518e6d2343e8a2
+        const { query } = urlUtils.urlToObject(window.location.href);
+
+        var defaultLayer = new FeatureLayer({
           portalItem: {
             id:"dd834ef507244f96baa6b29eab5dd396"
           },
@@ -136,11 +234,12 @@
           portalItem:{
             id:"75ea506613f847e48ab0f91e93ac538d"
           },
+          legendEnabled: false,
           renderer: {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
               type: "simple-fill", // autocasts as new SimpleFillSymbol()
-              color: [235, 235, 235, 0.5],
+              color: [235, 235, 235, 0.7],
               outline: {
                 color: [150, 150, 150, 0],
                 width: 0
@@ -149,29 +248,48 @@
           }
         })
 
+      // If no parameters are specified in the url, display the default map
+      if (!query) {
+        var layer = defaultLayer;
+      }
+      else {
+        // Create a Map from the first url parameter for the mainView
+        var layer = new FeatureLayer({
+          portalItem: {
+            id: query.layerID
+          }
+        });
+      }
+      
       var layerMap = new Map({
          layers: [backgroundLayer,layer]
       });
       var blankMap = new Map({
         layers: []
       });
-      var overViewMap = new Map({
+/*      var overViewMap = new Map({
         basemap: 'gray-vector'
-      })
+      })*/
         
       const webmap = new WebMap ({
          portalItem: { // autocasts as new PortalItem()
            id: "c51eff4a351342b18b3d853018c07558"
          }
        });
+       const webscene = new Map({
+          basemap: "gray-vector",
+          ground: "world-elevation"
+        });
+      /* 
       const webscene = new WebScene({
         portalItem: {
           id:"236b1801808646209b01c80e70c0c7ef"
         }
       });
+      */
 
 // use jsapi map constructed with layers or webmap        
-      var map = layerMap; //webmap
+      var map = layerMap; //webmap; 
 
       var mainView = new MapView({
           container: "mainViewDiv",
@@ -237,10 +355,6 @@
           spatialReference: asSR
         },
         spatialReference: asSR,
-        /*          {
-                    // Transverse_Cylindrical_Equal_Area
-                    },
-        */
         ui: {
           components: []
         }
@@ -258,10 +372,6 @@
             spatialReference: asSR
           },
         spatialReference: asSR,
-        /*          {
-                    // Cylindrical_Equal_Area
-                    },
-        */
         ui: {
           components: []
         }
@@ -279,10 +389,6 @@
           spatialReference: gunmSR
         },
         spatialReference: gunmSR,
-        /*          {
-                    // Transverse_Cylindrical_Equal_Area
-                    },
-        */
         ui: {
           components: []
         }
@@ -298,10 +404,6 @@
             xmax: 1200000,
             ymax: 4000000,
             spatialReference: akSR
-            /*           {
-              wkid: 102006
-            }
-           */
           },
           spatialReference: akSR,
             ui: {
@@ -319,10 +421,6 @@
             xmax: 450000,
             ymax: 1100000,
             spatialReference: hiSR
-           /*          {
-                 wkid: 102007
-                 }
-           */         
           },
           spatialReference: hiSR,
             ui: {
@@ -342,12 +440,20 @@
           spatialReference: prSR
         },
         spatialReference: prSR,
-        // Albers Equal Area
         ui: {
           components: []
         }
       });
       mainView.ui.add("prViewDiv","bottom-right");
+
+//console.log("mainView: ", mainView.viewEvents.view);
+      // Transform center point of mapView because SceneViewer
+      // can only deal with WGS84 or WebMercator in global mode
+      const overviewSpatialReference = new SpatialReference({
+          wkid: 3857 //WebMercator
+        });
+      
+ //     let transformCenter = projection.project(mainView.center,overviewSpatialReference);
 
       var overView = new SceneView({
         container: "overViewDiv",
@@ -357,30 +463,30 @@
             environment:{
                 background: {
                   type: "color",
-                  color: [247, 247, 247, 1]
+                  color: [0, 0, 255, 0]
                 },
                 lighting: {
-                  type: "virtual"
-                },
+//                  type: "virtual",
+                  type: "sun",
+                  date: new Date("July 20, 2022 20:30:00 UTC")
+              },
                 atmosphereEnabled: false,
                 starsEnabled:false
               },
-/*            camera: {
+            camera: {
               position: {
-                spatialReference: {
-                  latestWkid: 3857,
-                  wkid: 102100
-                },
-                // Get center point from main map (after transform)
-                z: 17000000
+                spatialReference: overviewSpatialReference,
+                x:-14500000,
+                y:6000000,
+                z: 20000000
               },
               heading: 0,
               tilt: 0
-            }*/
+            }
       });
       // Remove the default scene widgets
       overView.ui.components = [];
-      mainView.ui.add("overViewDiv", "bottom-right");
+      mainView.ui.add("overViewDiv");
 
         mainView
           .when(maintainFixedExtent)
@@ -459,6 +565,8 @@
           view.ui.add(toAdd, "bottom-right");
         }
  */       
+
+        // Set highlighting rules and mouse-over popup behavior
         let highlight = null;
         let lastHighlight = null;
 
@@ -513,37 +621,30 @@
       prView.scale = view.scale;  
       gunmView.scale = view.scale;
       asView.scale = view.scale;
-        }
+          }
+
         // disables all navigation in the view
         function disableNavigation(view) {
           view.popup.dockEnabled = true;
-
           // Removes the zoom action on the popup
           view.popup.actions = [];
-
           // stops propagation of default behavior when an event fires
           function stopEvtPropagation(event) {
             event.stopPropagation();
           }
-
           // disable mouse wheel scroll zooming on the view
           view.navigation.mouseWheelZoomEnabled = false;
-
           // disable zooming via double-click on the view
           view.on("double-click", stopEvtPropagation);
-
           // disable zooming out via double-click + Control on the view
           view.on("double-click", ["Control"], stopEvtPropagation);
-
           // disables pinch-zoom and panning on the view
           view.navigation.browserTouchPanEnabled = false;
           view.on("drag", stopEvtPropagation);
-
           // disable the view's zoom box to prevent the Shift + drag
           // and Shift + Control + drag zoom gestures.
           view.on("drag", ["Shift"], stopEvtPropagation);
           view.on("drag", ["Shift", "Control"], stopEvtPropagation);
-
           // prevents zooming and rotation with the indicated keys
           view.on("key-down", function(event) {
             var prohibitedKeys = ["+", "-", "_", "=", "a", "d"];
@@ -552,22 +653,75 @@
               event.stopPropagation();
             }
           });
-
           return view;
         }
-
         // prevents the user from opening the popup with click
-
         function disablePopupOnClick(view) {
           view.on("click", function(event) {
             event.stopPropagation();
           });
           return view;
         }
-        
-      });
 
-      </script>
+ /*       // draw the main map extent on the overview globe
+        overView.when(() => {
+          mainView.when(() => {
+            drawExtent();
+          });
+        });
+        
+        const extentDebouncer = promiseUtils.debounce(() => {
+          //sync the overview Scene center when the main map moves
+//          if (mainView.center != NULL){
+            transformCenter = projection.project(mainView.center,overviewSpatialReference);
+            overView.goTo({
+                position: {
+                  spatialReference: overviewSpatialReference,
+                  x:transformCenter.x,
+                  y:transformCenter.y,
+                  z:12000000,
+                }, 
+            });
+//          }  
+        });
+        function drawExtent() {
+          const extent3Dgraphic = new Graphic({
+            geometry: null,
+            symbol: {
+              type: "simple-fill",
+              color: [0, 0, 0, 0],
+              outline:  {
+                width: 1,
+                color: [255, 0, 0, 1]
+              }
+            }
+          });
+          overView.graphics.add(extent3Dgraphic);
+          
+          reactiveUtils.watch(
+            () => mainView.extent,
+              // Sync the overview map 
+              // whenever the main view moves
+               (extent) => {
+                //transform the mainView extent into something that SceneViewer can handle
+//                if (mainView.center != NULL) {
+                  const transformExtent = projection.project(extent,overviewSpatialReference);
+                    extentDebouncer().then(() => {
+                      extent3Dgraphic.geometry = transformExtent;
+                    });
+//                  }
+                console.log("mainViewCenterX: ",mainView.center.x,"mainViewCenterY: ",mainView.center.y);
+                console.log("transformCenterX: ",transformCenter.x,"transformCenterY: ",transformCenter.y);
+                console.log("overViewCenterX: ",overView.center.x,"overViewCenterY: ",overView.center.y);
+                  },
+                  {
+                  initial: true
+                  }
+          );
+        }
+ */       
+      });
+     </script>
   </head>
 
   <body>
