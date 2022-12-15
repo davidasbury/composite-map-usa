@@ -254,14 +254,9 @@
           portalItem: {
             //id:"6ac5e325468c4cb9b905f1728d6fbf0f" // US Federally supported hospital points (includes Palau)
             id:"dd834ef507244f96baa6b29eab5dd396"
-          },
-          outFields: ["CountyName", "StateAbbr", "POP2019"],
-          popupTemplate: {
-            overwriteActions: "true",
-            title: "{CountyName}, {StateAbbr} <br> 2019 Population: {POP2019}"
-          },
-          title: "U.S. counties"
+          }
         });
+
         var backgroundLayer = new FeatureLayer({
           portalItem:{
             id:"75ea506613f847e48ab0f91e93ac538d"
@@ -684,6 +679,8 @@
       gunmView.scale = mainView.scale;
       asView.scale = mainView.scale;
           }
+//remove zoom widget from popup
+      mainView.popup.viewModel.includeDefaultActions = false;
 
         // disables all navigation in the view
         function disableNavigation(view) {
