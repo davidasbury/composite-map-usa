@@ -15,14 +15,14 @@
       width: 100%;
     }
     .esri-ui-bottom-left {
-      height: 45% !important;
+      height: 40% !important;
       width: 40% !important;
       background-color: rgba(165, 42, 42, 0.0);
     }
     .esri-ui-top-left {
       flex-direction: column;
-      height:85% !important;
-      width: 35% !important;
+      height:90% !important;
+      width: 21% !important;
       background-color: rgba(127, 255, 212, 0);
     }
     .esri-ui-bottom-right {
@@ -45,7 +45,7 @@
       border-style: solid;
       border-width: 1px;
       border-color: gray;
-      clip-path: polygon(0% 0%, 25% 0%, 60% 35%, 100% 55%, 100% 100%, 0% 100%);
+      clip-path: polygon(0% 0%, 25% 0%, 25% 15%, 60% 35%, 100% 55%, 100% 100%, 0% 100%);
       background-color: rgba(250, 250, 250);
       text-align: left;
     }
@@ -61,7 +61,7 @@
       border-style: solid;
       border-width: 1px;
       border-color: gray;
-      clip-path: polygon(0% 55%, 100% 70%, 100% 100%, 0% 100%);
+      clip-path: polygon(0% 55%, 100% 80%, 100% 100%, 0% 100%);
       background-color: rgba(250, 250, 250);
     }
     #leftInsetDiv {
@@ -78,7 +78,7 @@
       width: 30%;
     }
     #gunmViewDiv {
-      flex: 5;
+      flex: 8;
       padding: 0;
       margin-bottom: 5%;
       height: 100%;
@@ -111,7 +111,7 @@
     #overViewDiv {
       position: fixed;
       bottom: 3%;
-      left: 58%;
+      left: 66.5%;
       width: 133px;
       height: 133px;
       border-radius: 50%;
@@ -405,8 +405,8 @@
           container: "akViewDiv",
           map: map,
           center: {
-            x: -166,
-            y: 70,
+            x: -165,
+            y: 68,
             spatialReference: {
               wkid: 4326
             }
@@ -429,7 +429,7 @@
         container: "gunmViewDiv",
         map: map,
         center: {
-          x: 145,
+          x: 145.5,
           y: 17,
           spatialReference: {
             wkid: 4326
@@ -453,8 +453,8 @@
         container: "asViewDiv",
         map: map,
         center: {
-          x: -169.5,
-          y: -14.30,
+          x: -170,
+          y: -14.3,
           spatialReference: {
             wkid: 4326
           }
@@ -471,7 +471,7 @@
           map: map,
           center: {
             x:-157.65,
-            y:24.5,
+            y:24,
             spatialReference: {
               wkid: 4326
             }
