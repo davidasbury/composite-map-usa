@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Create an app with composite views | Sample | ArcGIS API for JavaScript 4.20</title>
+    <title>US Composite Views</title>
 
     <style>
     html,
@@ -303,7 +303,7 @@
 
         var backgroundLayer = new FeatureLayer({
           portalItem:{
-            id:"75ea506613f847e48ab0f91e93ac538d"
+            id:"75ea506613f847e48ab0f91e93ac538d" // Admin-0 World Countries
           },
           legendEnabled: false,
           renderer: {
@@ -312,8 +312,26 @@
               type: "simple-fill", // autocasts as new SimpleFillSymbol()
               color: [235, 235, 235, 1],
               outline: {
-                color: [150, 150, 150, 0],
-                width: 0
+                color: [210, 210, 210, 1],
+                width: 0.5
+              }
+            }
+          }
+        });
+
+        var usStatesLayer = new FeatureLayer({
+          portalItem:{
+            id:"1ec2ffa0ebd34e4eac694adb9fa18184" // Admin-1 World Countries
+          },
+          legendEnabled: false,
+          renderer: {
+            type: "simple", // autocasts as new SimpleRenderer()
+            symbol: {
+              type: "simple-fill", // autocasts as new SimpleFillSymbol()
+              color: [235, 235, 235, 1],
+              outline: {
+                color: [210, 210, 210, 1],
+                width: 0.5
               }
             }
           }
@@ -351,7 +369,7 @@
       }
       
       var layerMap = new Map({
-         layers: [oceanLayer,backgroundLayer,layer]
+         layers: [oceanLayer,backgroundLayer,usStatesLayer,layer]
       });
 
 // use jsapi map constructed with layers or webmap        
