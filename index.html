@@ -752,7 +752,7 @@
           });
         });
         
-        const extentDebouncer = promiseUtils.debounce(() => {
+/*        const extentDebouncer = promiseUtils.debounce(() => {
           //sync the overview Scene center when the main map moves
 //          if (mainView.center != NULL){
             transformCenter = projection.project(mainView.center,overviewSpatialReference);
@@ -765,10 +765,14 @@
                 }, 
             });
 //          }  
-        });
+        });*/
+        const transformMainExtent = projection.project(mainView.extent,overviewSpatialReference);
+        console.log("akExtent: ",asView.center);
+//        const transformPRExtent = projection.project(akView.extent,overviewSpatialReference);
+                
         function drawExtent() {
           const extent3Dgraphic = new Graphic({
-            geometry: null,
+            geometry: transformMainExtent,
             symbol: {
               type: "simple-fill",
               color: [0, 0, 0, 0],
@@ -780,7 +784,7 @@
           });
           overView.graphics.add(extent3Dgraphic);
           
-          reactiveUtils.watch(
+/*          reactiveUtils.watch(
             () => mainView.extent,
               // Sync the overview map 
               // whenever the main view moves
@@ -799,7 +803,7 @@
                   {
                   initial: true
                   }
-          );
+          );*/
         }
     
 console.log("size :",mainView.size[0]/mainView.size[1]);    
