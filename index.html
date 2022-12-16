@@ -289,9 +289,15 @@
           portalItem: {
             //id:"6ac5e325468c4cb9b905f1728d6fbf0f" // US Federally supported hospital points (includes Palau)
             //id:"df53bb7c871b4e13a59e4310a581a917" // County boundaries from HiFLD
-            id: "49c25e0ce50340e08fcfe51fe6f26d1e" // Covid trends
-            // id: "5e92f2e0930848faa40480bcb4fdc44e" // USA Federal Lands
-            //id:"dd834ef507244f96baa6b29eab5dd396" // 2019 Population density
+            //id:"49c25e0ce50340e08fcfe51fe6f26d1e" // Covid trends
+            //id:"c93f8a9f2a614ff8a31db732636eff9b" // 2022 Zip Codes from Esri Data/Maps 
+            //id:"cb1886ff0a9d4156ba4d2fadd7e8a139" // Current wind station data
+            //id:"d957997ccee7408287a963600a77f61f" // Current wildfires
+            //id:"5e92f2e0930848faa40480bcb4fdc44e" // USA Federal Lands
+            //id:"79461a1ec0974301bde274177c7108bd" // Earthquake archive
+            id:"dd834ef507244f96baa6b29eab5dd396" // 2019 Population density
+//          id: "67ab7f7c535c4687b6518e6d2343e8a2" // Ocean basemap
+
           }
         });
 
@@ -519,7 +525,6 @@
       const defaultOverview = new Map({
           basemap: "gray-vector",
           ground: "world-elevation"
-//          id: "67ab7f7c535c4687b6518e6d2343e8a2" // Ocean basemap
       });
       // If a url parameter is defined, use that id to create a map for the overview
       let overviewMap = defaultOverview;
@@ -767,7 +772,7 @@
 //          }  
         });*/
         const transformMainExtent = projection.project(mainView.extent,overviewSpatialReference);
-        console.log("akExtent: ",asView.center);
+        console.log("akExtent: ",asView.view);
 //        const transformPRExtent = projection.project(akView.extent,overviewSpatialReference);
                 
         function drawExtent() {
