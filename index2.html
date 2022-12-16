@@ -16,14 +16,13 @@
       width: 100%;
     }
     .esri-ui-bottom-left {
-      height: 40% !important;
-      width: 40% !important;
+      height: 30% !important;
+      width: 30% !important;
       background-color: rgba(165, 42, 42, 0.0);
     }
     .esri-ui-top-left {
-      flex-direction: column;
-      height:93% !important;
-      width: 21% !important;
+      height:50% !important;
+      width: 33% !important;
       background-color: rgba(127, 255, 212, 0);
     }
     .esri-ui-bottom-right {
@@ -44,26 +43,37 @@
       border-style: solid;
       border-width: 1px;
       border-color: gray;
-      clip-path: polygon(0% 0%, 27% 0%, 27% 15%, 60% 35%, 100% 55%, 100% 100%, 0% 100%);
+      
       background-color: rgba(250, 250, 250, 0);
       text-align: left;
     }
-    #hiViewDiv {
-      flex: 1; 
+    #islandsViewDiv{
+      flex:1;
+      flex-direction: column;
       padding: 0;
       margin: 0;
       height: 100%;
       width: 100%;
-      border-right-style: solid;
-      border-bottom-style: solid;
+      border-style: solid;
       border-width: 1px;
       border-color: gray;
-      clip-path: polygon(0% 55%, 100% 80%, 100% 100%, 0% 100%);
+    }
+    #hiViewDiv {
+      flex: 1.25; 
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      border-style: solid;
+      border-width: 1px;
+      border-color: gray;
       background-color: rgba(250, 250, 250, 0);
     }
     #gunmViewDiv {
-      flex: 12;
+      flex: 1;
+      flex-direction: column !important;
       padding: 0;
+      margin: 0;
       height: 100%;
       width: 100%;
       border-style: solid;
@@ -73,6 +83,7 @@
     }
     #asViewDiv {
       flex: 1;
+      flex-direction: column !important;
       padding: 0;
       margin: 0;
       height: 100%;
@@ -96,7 +107,7 @@
     #overViewDiv {
       position: fixed;
       bottom: 3%;
-      left: 63%;
+      left: 73%;
       width: 126px;
       height: 126px;
       border-radius: 50%;
@@ -397,10 +408,10 @@
             }
           },*/
           extent: {
-            xmin: -118,
-            ymin: 24,
-            xmax: -75,
-            ymax: 52.5,
+            xmin: -145,
+            ymin: 32,
+            xmax: -78,
+            ymax: 45,
             spatialReference: 4326
             },
 /*          extent: {
@@ -430,8 +441,8 @@
           container: "akViewDiv",
           map: map,
           center: {
-            x: -165,
-            y: 68,
+            x: -148,
+            y: 63,
             spatialReference: {
               wkid: 4326
             }
@@ -448,7 +459,15 @@
               components: []
             }
           });
-        mainView.ui.add("akViewDiv", "bottom-left");
+        mainView.ui.add("akViewDiv", "top-left");
+
+        var islandsView = new MapView({
+            container:"islandsViewDiv",
+            ui: {
+                components: []
+            }
+        });
+        mainView.ui.add("islandsViewDiv","bottom-left");
 
         var gunmView = new MapView({
         container: "gunmViewDiv",
@@ -472,7 +491,7 @@
           components: []
         }
       });
-        akView.ui.add("gunmViewDiv", "top-left");
+        islandsView.ui.add("gunmViewDiv","top-left");
 
      var asView = new MapView({
         container: "asViewDiv",
@@ -489,7 +508,7 @@
           components: []
         }
       });
-        akView.ui.add("asViewDiv", "top-left");
+        islandsView.ui.add("asViewDiv","bottom-left");
 
         var hiView = new MapView({
           container: "hiViewDiv",
@@ -720,7 +739,7 @@
           });
 
 //set inset maps to have same scale as main map (except for Alaska)
-      akView.scale = mainView.scale * 2.8571; //  * 2.8571
+      akView.scale = mainView.scale; //  * 2.8571
       hiView.scale = mainView.scale;
       prView.scale = mainView.scale;  
       gunmView.scale = mainView.scale;
@@ -839,8 +858,9 @@ console.log("size :",mainView.size[0]/mainView.size[1]);
     <div id="mainViewDiv"></div>
 <!--    <div id="leftInsetDiv" class="esri-widget"></div>
     <div id="islandsViewDiv" class="esri-widget"></div> -->
+    <div id="islandsViewDiv" class="esri-widget"></div>
     <div id="asViewDiv" class="esri-widget"><h1 style="font-size:1vw;">American Samoa</h1></div>
-    <div id="gunmViewDiv"><h1 style="font-size:1vw;" text-align="left">Guam</h1></div>
+    <div id="gunmViewDiv"></div>
     <div id="akViewDiv" class="esri-widget"><div id="divLabel"><h1 style="font-size:1vw;">Alaska</h1></div></div>
     <div id="hiViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Hawaii</h1></div></div>
     <div id="prViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Puerto Rico</h1></div>
