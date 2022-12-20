@@ -21,8 +21,8 @@
       background-color: rgba(127, 255, 212, 0);
     }
     .esri-ui-bottom-left {
-      height: 30% !important;
-      width: 33% !important;
+      height: 35% !important;
+      width: 38% !important;
       background-color: rgba(165, 42, 42, 0.0);
     }
     .esri-ui-bottom-right {
@@ -75,9 +75,7 @@
       margin: 0;
       height: 100%;
       width: 100%;
-      border-right-style: solid;
-      border-top-style: solid;
-      border-bottom-style: solid;
+      border-style: solid;
       border-width: 1px;
       border-color: gray;
       background-color: rgba(250, 250, 250, 0);
@@ -278,22 +276,27 @@
           } else {
             displayPR.style.display = 'none';
           };
-          // If "AK" or "HI" is listed in the views parameter, display the inset map for Alaska and Hawaii
+          // If "AK" is listed in the views parameter, display the inset map for Alaska
           var displayAK = document.getElementById("akViewDiv");
-          var displayHI = document.getElementById("hiViewDiv");
-          if (viewsArray.includes("AK") || viewsArray.includes("HI")){
+          var displayAK2 = document.getElementById("ak2ViewDiv");
+          if (viewsArray.includes("AK")){
             displayAK.style.display = 'flex';
-            displayHI.style.display = 'flex';
+            displayAK2.style.display = 'flex';
           } else {
             displayAK.style.display = 'none';
+            displayAK2.style.display = 'none';
+          };
+          // If "HI" is listed in the views parameter, display the inset map for Hawaii
+          var displayHI = document.getElementById("hiViewDiv");
+          if (viewsArray.includes("HI")){
+            displayHI.style.display = 'flex';
+          } else {
             displayHI.style.display = 'none';
           };
           // If "GU" or "AS" or "UM" is listed in the views parameter, display the inset map for Guam, the Northern Marianas Is. and American Samoa
           var displayGU = document.getElementById("gunmViewDiv");
           var displayAS = document.getElementById("asViewDiv");
           if (viewsArray.includes("GU") || viewsArray.includes("AS") || viewsArray.includes("UM")){
-            displayAK.style.display = 'flex';
-            displayHI.style.display = 'flex';
             displayGU.style.display = 'flex';
             displayAS.style.display = 'flex';
           } else {
@@ -547,22 +550,43 @@
       });
         mainView.ui.add("asViewDiv","bottom-left");
 
-        var hiView = new MapView({
-          container: "hiViewDiv",
-          map: map,
-          center: {
-            x:-159,
-            y:21,
-            spatialReference: {
-              wkid: 4326
-            }
-          },
-          spatialReference: hiSR,
-            ui: {
-              components: []
-            }
-          });
-        mainView.ui.add("hiViewDiv", "bottom-left");
+      var hiIslandsView = new MapView({
+        container: "hiViewDiv",
+        map: map,
+        center: {
+          x:-159,
+          y:21,
+          spatialReference: {
+            wkid: 4326
+          }
+        },
+        spatialReference: hiSR,
+          ui: {
+            components: []
+          }
+        });
+
+        var hiAloneView = new MapView({
+        container: "hiViewDiv",
+        map: map,
+        center: {
+          x:-166.5, // -159,
+          y:24, // 21,
+          spatialReference: {
+            wkid: 4326
+          }
+        },
+        spatialReference: hiSR,
+          ui: {
+            components: []
+          }
+        });
+
+      var hiView = hiAloneView;  
+      if (viewsArray.includes("HI") && viewsArray.includes("AS")){
+        hiView = hiIslandsView;
+      };
+      mainView.ui.add("hiViewDiv", "bottom-left");
 
       var prView = new MapView({
         container: "prViewDiv",
