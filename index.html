@@ -306,7 +306,9 @@
             displayAS.style.display = 'none';
           };
           // If "NONE" is listed in the parameter for views, display only the Continental United States
+          var displayColumnDiv = document.getElementById("columnDiv");
           if (viewsArray.includes("NONE")){
+            displayColumnDiv.style.display = 'none';
             displayAK.style.display = 'none';
             displayHI.style.display = 'none';
             displayPR.style.display = 'none';
