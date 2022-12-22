@@ -820,7 +820,7 @@
 //          }  
         });*/
         const transformMainExtent = projection.project(mainView.extent,overviewSpatialReference);
-//        console.log("asCenterX: ",asView.center.x,"asCenterY: ",asView.center.y);
+        console.log("asCenterX: ",asView.center.x,"asCenterY: ",asView.center.y);
 //        const transformPRExtent = projection.project(akView.extent,overviewSpatialReference);
                 
         function drawExtent() {
@@ -859,7 +859,7 @@
           );*/
         }
     
-console.log("size :",mainView.size[0]/mainView.size[1]);    
+console.log("Viewport ratio :",mainView.size[0]/mainView.size[1]);    
       });
      </script>
   </head>
