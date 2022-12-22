@@ -19,7 +19,7 @@ The default url uses a feature service that can be swapped out with a url parame
 
 where ``<feature layer ID>`` is an item ID for any feature service. You can use ArcGIS Server (non-hosted) feature services, but they must be registered with an ArcGIS Enterprise or ArcGIS Online portal in order to have an item ID. 
 
-Example: [https://davidasbury.github.io/scene-overview-map/?webmap=22d1524dde5f4e5b9670545f5b853517](https://davidasbury.github.io/composite-map-usa/?featurelayer=cb1886ff0a9d4156ba4d2fadd7e8a139)
+Example: [https://davidasbury.github.io/composite-map-usa?featurelayer=c93f8a9f2a614ff8a31db732636eff9b](https://davidasbury.github.io/composite-map-usa?featurelayer=c93f8a9f2a614ff8a31db732636eff9b)
 
 The map can use **any** feature service and will dynamically reproject the data within each view.
 
@@ -29,7 +29,7 @@ The map can use **any** feature service and will dynamically reproject the data 
 
 where ``<webmap ID>`` is any ArcGIS Online webmap in WGS84 or Web Mercator projection. This is a requirement of the [3D SceneViewer](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#spatialReference).
 
-Example using the Oceans Basemap: [https://storymaps.esri.com/david/composite-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2](https://storymaps.esri.com/david/composite-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2)
+Example using the Oceans Basemap: [https://davidasbury.github.io/composite-map-usa?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2](https://davidasbury.github.io/composite-map-usa?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2)
 
 ### To change which inset maps are shown
 
