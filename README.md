@@ -17,7 +17,7 @@ The default url uses a feature service that can be swapped out with a url parame
 
 ``<base URL>?featurelayer=<feature layer ID>`` 
 
-where ``<feature layer ID>`` is an item ID for any feature service. You can use ArcGIS Server (non-hosted) feature services, but they must be registered with and Enterprise or ArcGIS Online portal in order to have an item ID. 
+where ``<feature layer ID>`` is an item ID for any feature service. You can use ArcGIS Server (non-hosted) feature services, but they must be registered with an ArcGIS Enterprise or ArcGIS Online portal in order to have an item ID. 
 
 Example: [https://davidasbury.github.io/scene-overview-map/?webmap=22d1524dde5f4e5b9670545f5b853517](https://davidasbury.github.io/composite-map-usa/?featurelayer=cb1886ff0a9d4156ba4d2fadd7e8a139)
 
