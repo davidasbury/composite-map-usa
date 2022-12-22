@@ -61,6 +61,8 @@ where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entrie
 
 Due to layout constraints, some views are paired together. For example, if you'd like to see Puerto Rico, you will also see the US Virgin Islands. The same is true for Guam/Northern Marianas. Alaska and Hawaii can also not be displayed indvidually and the Alaska/Hawaii insets will always be shown when choosing either American Samoa or Guam/Northern Marianas.
 
+[Example](https://davidasbury.github.io/composite-map-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=ak,vi)
+
 ## Secondary layout
 
 Use ``index2.html`` to see a second layout that shows Alaska and Hawaii (including the Northwestern Hawaiian Islands) at true scale. 
