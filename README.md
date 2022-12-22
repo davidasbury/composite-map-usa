@@ -2,6 +2,8 @@
 
 This is a configurable app that can show various views of the United States within the same frame. Each inset map is in an equal-area projection and all views (except Alaska) are dynamically rendered at the same scale. The rendered scale is set on page load by the viewport size. This allows for better thematic mapping as areas across the country can be more accurately compared.
 
+The layouts have been optimized for an aspect ratio of 1.777 (16/9)
+
 [Example](https://davidasbury.github.io/composite-map-usa/)
 
 It is a modification of the Composite Views sample on the ArcGIS Developer site: [ArcGIS Maps SDK for JavaScript
@@ -63,4 +65,4 @@ Due to layout constraints, some views are required to be shown. For example, if 
 
 Use ``index2.html`` to see a second layout that shows Alaska and Hawaii (including the Northwestern Hawaiian Islands) at true scale. 
 
-[Example](https://davidasbury.github.io/composite-map-usa/index2.html?featurelayer=cb1886ff0a9d4156ba4d2fadd7e8a139&views=ak,hi,pr)
+[Example](https://davidasbury.github.io/composite-map-usa/index2.html?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&views=ak,hi,pr)
