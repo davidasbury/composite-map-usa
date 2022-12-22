@@ -6,7 +6,7 @@ While the app is responsive and the maps will render on any screen or iframe, th
 
 [Example](https://davidasbury.github.io/composite-map-usa/)
 
-It is a modification of the Composite Views sample on the ArcGIS Developer site: [ArcGIS Maps SDK for JavaScript
+This app is a modification of the Composite Views sample on the ArcGIS Developer site: [ArcGIS Maps SDK for JavaScript
 Sample Code | Composite Views](https://developers.arcgis.com/javascript/latest/sample-code/views-composite-views/)
 
 ## Configure URL parameters
