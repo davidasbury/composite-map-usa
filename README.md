@@ -4,7 +4,7 @@ This is a configurable app that can show various views of the United States with
 
 [Example](https://davidasbury.github.io/composite-map-usa/)
 
-It is a modification of the Composite Views sample on ArcGIS Developers: [ArcGIS Maps SDK for JavaScript
+It is a modification of the Composite Views sample on the ArcGIS Developer site: [ArcGIS Maps SDK for JavaScript
 Sample Code | Composite Views](https://developers.arcgis.com/javascript/latest/sample-code/views-composite-views/)
 
 ## Configure URL parameters
@@ -58,3 +58,9 @@ where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entrie
 
 
 Due to layout constraints, some views are required to be shown. For example, if you'd like to see Puerto Rico, you will also see the US Virgin Islands. The same is true for Guam/Northern Marianas. Alaska and Hawaii can also not be displayed indvidually and the Alaska/Hawaii insets will always be shown when choosing either American Samoa or Guam/Northern Marianas.
+
+## Secondary layout
+
+Use ``index2.html`` to see a second layout that shows Alaska and Hawaii (including the Northwestern Hawaiian Islands) at true scale. 
+
+[Example](https://davidasbury.github.io/composite-map-usa/index2.html?featurelayer=cb1886ff0a9d4156ba4d2fadd7e8a139&views=ak,hi,pr)
