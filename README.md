@@ -59,7 +59,7 @@ where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entrie
 ``None`` = Continental US only
 
 
-Due to layout constraints, some views are required to be shown. For example, if you'd like to see Puerto Rico, you will also see the US Virgin Islands. The same is true for Guam/Northern Marianas. Alaska and Hawaii can also not be displayed indvidually and the Alaska/Hawaii insets will always be shown when choosing either American Samoa or Guam/Northern Marianas.
+Due to layout constraints, some views are paired together. For example, if you'd like to see Puerto Rico, you will also see the US Virgin Islands. The same is true for Guam/Northern Marianas. Alaska and Hawaii can also not be displayed indvidually and the Alaska/Hawaii insets will always be shown when choosing either American Samoa or Guam/Northern Marianas.
 
 ## Secondary layout
 
