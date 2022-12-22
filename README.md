@@ -2,7 +2,7 @@
 
 This is a configurable app that can show various views of the United States within the same frame. Each inset map is in an equal-area projection and all views (except Alaska) are dynamically rendered at the same scale. The rendered scale is set on page load by the viewport size. This allows for better thematic mapping as areas across the country can be more accurately compared.
 
-While the app is responsive and the maps will render on any screen, the layouts have been optimized for an aspect ratio of 1.777 (16/9)
+While the app is responsive and the maps will render on any screen or iframe, the layouts have been optimized for an aspect ratio of 1.777 (16/9)
 
 [Example](https://davidasbury.github.io/composite-map-usa/)
 
