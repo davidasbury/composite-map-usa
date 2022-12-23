@@ -34,7 +34,7 @@
       display: none;
     }
 
-    #columnDiv {
+    #columnDivContainer {
       flex: 2;
       margin: 0;
       padding: 0;
@@ -44,7 +44,7 @@
       clip-path: polygon(0% 0%, 30% 0%, 30% 35%, 60% 35%, 100% 55%, 100% 100%, 0% 100%);
       background-color: rgba(25, 250, 250, 0);
     }
-    #akViewDivBorder {
+    #akViewDivContainer {
       padding: 0;
       margin: 0;
       height: 100%;
@@ -63,7 +63,7 @@
       clip-path: polygon(0% 76%, 30% 76%, 30% 35%, 60% 35%, 100% 55%, 100% 100%, 0% 100%);
       background-color: rgba(25, 250, 250, 0);
     }
-    #hiViewDivBorder {
+    #hiViewDivContainer {
       flex: 1; 
       padding: 0;
       margin: 0.25;
@@ -125,7 +125,7 @@
       bottom: 3%;
       left: 63%;
       padding: 0;
-      margin: 50 px;
+      margin: 0;
       width: 10%;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
@@ -262,8 +262,8 @@
           UNIT["Meter",1.0]]');
       }       
 
-        // Get parameters from the url: (1) ?featurelayer= (2) &overview= (3) &enabledviews=GLOBE,CONUS,PR,AK,HI,AS,GU
-        // Example <baseurl>?featurelayer=d227d6a4ee3e4d2d87eb9843ee14dd87&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=GLOBE,CONUS,AK,HI,PR
+        // Get parameters from the url: (1) ?featurelayer= (2) &overview= (3) &views=GLOBE,PR,AK,HI,AS,GU "none"=CONUS
+        // Example <baseurl>?featurelayer=d227d6a4ee3e4d2d87eb9843ee14dd87&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=GLOBE,AK,HI,PR
         const { query } = urlUtils.urlToObject(window.location.href);
 
         // Get the views parameter from the url and convert all characters to upper case
@@ -272,76 +272,70 @@
           // Create an array from the views url parameter
           var viewsArray = urlViews.split(',');
           console.log("views: ",viewsArray);
-          // Create variables for each inset element
+          // Create variables for each inset div
           var displayGlobe = document.getElementById("overViewDiv");
           var displayPR = document.getElementById("prViewDiv");
           var displayAK = document.getElementById("akViewDiv");
           var displayHI = document.getElementById("hiViewDiv");
           var displayGU = document.getElementById("gunmViewDiv");
           var displayAS = document.getElementById("asViewDiv");
-          var displayColumnDiv = document.getElementById("columnDiv");
-          var displayHIDivBorder = document.getElementById("hiViewDivBorder");
+          var displayColumnDiv = document.getElementById("columnDivContainer");
+          var displayAKDivBorder = document.getElementById("akViewDivContainer");
+          var displayHIDivBorder = document.getElementById("hiViewDivContainer");
           // If "GLOBE" is listed in the views parameter, display the overview map
           if (viewsArray.includes("GLOBE")){
             displayGlobe.style.display = 'flex';
           } else {
             displayGlobe.style.display = 'none';
-            displayColumnDiv.style.display = 'none';
-            displayHIDivBorder.style.display = 'none';
           };
           // If "PR" or "VI" is listed in the parameter for views, display the inset map for Puerto Rico and the US Virgin Islands          
           if (viewsArray.includes("PR") || viewsArray.includes("VI")){
             displayPR.style.display = 'flex';
           } else {
             displayPR.style.display = 'none';
-            displayColumnDiv.style.display = 'none';
-            displayHIDivBorder.style.display = 'none';
           };
           // If "AK" or "HI" is listed in the views parameter, display the inset map for Alaska and Hawaii
           if (viewsArray.includes("AK") || viewsArray.includes("HI")){
             displayColumnDiv.style.display = 'flex';
             displayHIDivBorder.style.display = 'flex';
+            displayAKDivBorder.style.display = 'flex';
             displayAK.style.display = 'flex';
             displayHI.style.display = 'flex';
-          } else {
-            displayAK.style.display = 'none';
-            displayHI.style.display = 'none';
+           } else {
             displayColumnDiv.style.display = 'none';
             displayHIDivBorder.style.display = 'none';
           };
           // If "GU" or "MP" is listed in the views parameter, display the inset map for Guam and the Northern Marianas Is.         
           if (viewsArray.includes("GU") || viewsArray.includes("MP")){
+            displayColumnDiv.style.display = 'flex';
+            displayHIDivBorder.style.display = 'flex';
+            displayAKDivBorder.style.display = 'flex';
             displayAK.style.display = 'flex';
             displayHI.style.display = 'flex';
             displayGU.style.display = 'flex';
           } else {
             displayGU.style.display = 'none';
-            displayColumnDiv.style.display = 'none';
-            displayHIDivBorder.style.display = 'none';
           };
           // If "AS" is listed in the views parameter, display the inset map for American Samoa          
           if (viewsArray.includes("AS")){
+            displayColumnDiv.style.display = 'flex';
+            displayHIDivBorder.style.display = 'flex';
+            displayAKDivBorder.style.display = 'flex';
             displayAK.style.display = 'flex';
             displayHI.style.display = 'flex';
             displayAS.style.display = 'flex';
           } else {
             displayAS.style.display = 'none';
-            displayColumnDiv.style.display = 'none';
-            displayHIDivBorder.style.display = 'none';
-          };
-          // If "UM" is listed in the views parameter, display the inset map for Guam, the Northern Marianas Is. and American Samoa
-          //var displayBottomLeft = document.getElementsByClassName("esri-ui-bottom-left")
+           };
+          // If "UM" is listed in the views parameter, display the inset maps for Guam, the Northern Marianas Is. and American Samoa
           if (viewsArray.includes("UM")){
-            //displayBottomLeft.style.width = "44%";
+            displayColumnDiv.style.display = 'flex';
+            displayHIDivBorder.style.display = 'flex';
+            displayAKDivBorder.style.display = 'flex';
             displayAK.style.display = 'flex';
             displayHI.style.display = 'flex';
             displayGU.style.display = 'flex';
             displayAS.style.display = 'flex';
-          } else {
-            displayGU.style.display = 'none';
-            displayAS.style.display = 'none';
-            displayColumnDiv.style.display = 'none';
-            displayHIDivBorder.style.display = 'none';
           };
           // If "NONE" is listed in the parameter for views, display only the Continental United States
           if (viewsArray.includes("NONE")){
@@ -480,7 +474,7 @@
         });
       
       var columnView = new MapView({
-        container: "columnDiv",
+        container: "columnDivContainer",
         map: map,
         center: {
           x: 0,
@@ -496,7 +490,7 @@
       });
 
       var akViewBorder = new MapView({
-        container: "akViewDivBorder",
+        container: "akViewDivContainer",
         map: map,
         center: {
           x: 0,
@@ -526,7 +520,7 @@
             components: []
           }
       });
-      columnView.ui.add("akViewDivBorder")
+      columnView.ui.add("akViewDivContainer")
       akViewBorder.ui.add("akViewDiv");
 
       var gunmView = new MapView({
@@ -547,7 +541,7 @@
       columnView.ui.add("gunmViewDiv", "top-left");
 
       var hiViewBorder = new MapView({
-        container: "hiViewDivBorder",
+        container: "hiViewDivContainer",
         map: map,
         center: {
           x: 0,
@@ -582,11 +576,11 @@
       // Add components to mainView
       mainView.ui.add([
         {
-          component: columnDiv,
+          component: columnDivContainer,
           position: "bottom-left",
           index: 0
         },{
-          component: hiViewDivBorder,
+          component: hiViewDivContainer,
           position: "bottom-left",
           index: 1
         },{
@@ -900,17 +894,14 @@ console.log("Viewport ratio :",mainView.size[0]/mainView.size[1]);
 
   <body>
     <div id="mainViewDiv"></div>
-<!--    <div id="leftInsetDiv" class="esri-widget"></div>
-    <div id="islandsViewDiv" class="esri-widget"></div> -->
-    <div id="akViewDiv" class="esri-widget"><div id="divLabel"><h1 style="font-size:1vw;">Alaska</h1></div></div>
-    <div id="akViewDivBorder"></div>
-    <div id="columnDiv"></div>
-    <div id="hiViewDivBorder"></div>
+    <div id="columnDivContainer"></div>
+    <div id="akViewDivContainer"></div>
+    <div id="akViewDiv" class="esri-widget"></div>
+    <div id="hiViewDivContainer"></div>
+    <div id="hiViewDiv" class="esri-widget">
     <div id="gunmViewDiv"></div>
-    <div id="hiViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Hawaii</h1></div></div> 
     <div id="prViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Puerto Rico</h1></div>
     <div id="asViewDiv" class="esri-widget"><h1 style="font-size:1vw;">American Samoa</h1></div>
-
     <div id="overViewDiv"></div>
   </body>
 </html>
