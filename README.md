@@ -4,7 +4,7 @@ This is a configurable app that can show various views of the United States with
 
 While the app is responsive and the maps will render on any screen or iframe, the layouts have been optimized for an aspect ratio of 1.777 (16/9)
 
-[Example](https://davidasbury.github.io/composite-map-usa/)
+[Click for a sample](https://davidasbury.github.io/composite-map-usa/)
 
 This app is a modification of the Composite Views sample on the ArcGIS Developer site: [ArcGIS Maps SDK for JavaScript
 Sample Code | Composite Views](https://developers.arcgis.com/javascript/latest/sample-code/views-composite-views/)
@@ -61,7 +61,7 @@ where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entrie
 
 Due to layout constraints, some views are paired together. For example, if you'd like to see Puerto Rico, you will also see the US Virgin Islands. The same is true for Guam/Northern Marianas. Alaska and Hawaii can also not be displayed indvidually and the Alaska/Hawaii insets will always be shown when choosing either American Samoa or Guam/Northern Marianas.
 
-[Example](https://davidasbury.github.io/composite-map-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=ak,vi)
+[Example showing zip codes and AK/VI views](https://davidasbury.github.io/composite-map-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=ak,vi)
 
 ## Secondary layout
 
