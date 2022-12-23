@@ -63,6 +63,9 @@ Due to layout constraints, some views are paired together. For example, if you'd
 
 [Example showing zip codes and AK/VI views](https://davidasbury.github.io/composite-map-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=ak,vi)
 
+![Screenshot 2022-12-23 at 3 06 56 PM](https://user-images.githubusercontent.com/6776067/209412387-bf696eba-ac44-4a62-a4c1-ec41b75ff4d8.png)
+
+
 ## Secondary layout
 
 Use ``index2.html`` to see a second layout that shows Alaska and Hawaii (including the Northwestern Hawaiian Islands) at true scale. 
