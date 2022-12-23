@@ -271,47 +271,62 @@
           // Create an array from the views url parameter
           var viewsArray = urlViews.split(',');
           console.log("views: ",viewsArray);
-          // If "GLOBE" is listed in the views parameter, display the overview map
+          // Create variables for each inset element
           var displayGlobe = document.getElementById("overViewDiv");
+          var displayPR = document.getElementById("prViewDiv");
+          var displayAK = document.getElementById("akViewDiv");
+          var displayHI = document.getElementById("hiViewDiv");
+          var displayGU = document.getElementById("gunmViewDiv");
+          var displayAS = document.getElementById("asViewDiv");
+          var displayColumnDiv = document.getElementById("columnDiv");
+          var displayHIDivBorder = document.getElementById("hiViewDivBorder");
+          // If "GLOBE" is listed in the views parameter, display the overview map
           if (viewsArray.includes("GLOBE")){
             displayGlobe.style.display = 'flex';
           } else {
             displayGlobe.style.display = 'none';
+            displayColumnDiv.style.display = 'none';
+            displayHIDivBorder.style.display = 'none';
           };
-          // If "PR" or "VI" is listed in the parameter for views, display the inset map for Puerto Rico and the US Virgin Islands
-          var displayPR = document.getElementById("prViewDiv");
+          // If "PR" or "VI" is listed in the parameter for views, display the inset map for Puerto Rico and the US Virgin Islands          
           if (viewsArray.includes("PR") || viewsArray.includes("VI")){
             displayPR.style.display = 'flex';
           } else {
             displayPR.style.display = 'none';
+            displayColumnDiv.style.display = 'none';
+            displayHIDivBorder.style.display = 'none';
           };
           // If "AK" or "HI" is listed in the views parameter, display the inset map for Alaska and Hawaii
-          var displayAK = document.getElementById("akViewDiv");
-          var displayHI = document.getElementById("hiViewDiv");
           if (viewsArray.includes("AK") || viewsArray.includes("HI")){
+            displayColumnDiv.style.display = 'flex';
+            displayHIDivBorder.style.display = 'flex';
             displayAK.style.display = 'flex';
             displayHI.style.display = 'flex';
           } else {
             displayAK.style.display = 'none';
             displayHI.style.display = 'none';
+            displayColumnDiv.style.display = 'none';
+            displayHIDivBorder.style.display = 'none';
           };
-          // If "GU" or "MP" is listed in the views parameter, display the inset map for Guam and the Northern Marianas Is.
-          var displayGU = document.getElementById("gunmViewDiv");
+          // If "GU" or "MP" is listed in the views parameter, display the inset map for Guam and the Northern Marianas Is.         
           if (viewsArray.includes("GU") || viewsArray.includes("MP")){
             displayAK.style.display = 'flex';
             displayHI.style.display = 'flex';
             displayGU.style.display = 'flex';
           } else {
             displayGU.style.display = 'none';
+            displayColumnDiv.style.display = 'none';
+            displayHIDivBorder.style.display = 'none';
           };
-          // If "AS" is listed in the views parameter, display the inset map for American Samoa
-          var displayAS = document.getElementById("asViewDiv");
+          // If "AS" is listed in the views parameter, display the inset map for American Samoa          
           if (viewsArray.includes("AS")){
             displayAK.style.display = 'flex';
             displayHI.style.display = 'flex';
             displayAS.style.display = 'flex';
           } else {
             displayAS.style.display = 'none';
+            displayColumnDiv.style.display = 'none';
+            displayHIDivBorder.style.display = 'none';
           };
           // If "UM" is listed in the views parameter, display the inset map for Guam, the Northern Marianas Is. and American Samoa
           //var displayBottomLeft = document.getElementsByClassName("esri-ui-bottom-left")
@@ -324,11 +339,13 @@
           } else {
             displayGU.style.display = 'none';
             displayAS.style.display = 'none';
+            displayColumnDiv.style.display = 'none';
+            displayHIDivBorder.style.display = 'none';
           };
           // If "NONE" is listed in the parameter for views, display only the Continental United States
-          var displayColumnDiv = document.getElementById("columnDiv");
           if (viewsArray.includes("NONE")){
             displayColumnDiv.style.display = 'none';
+            displayHIDivBorder.style.display = 'none';
             displayAK.style.display = 'none';
             displayHI.style.display = 'none';
             displayPR.style.display = 'none';
@@ -624,9 +641,12 @@
       let transformCenter = projection.project(mainView.extent.center,overviewSpatialReference);
       
       // Create a default map for the overview
-      const defaultOverview = new Map({
-          basemap: "gray-vector",
-          ground: "world-elevation"
+      const defaultOverview = new WebMap({
+          portalItem: {
+            id: "4d06e3600dc54741931d5c72288994df"
+          }
+          //basemap: "gray-vector",
+          //ground: "world-elevation"
       });
       // If a url parameter is defined, use that id to create a map for the overview
       let overviewMap = defaultOverview;
@@ -661,7 +681,7 @@
               position: {
                 spatialReference: overviewSpatialReference,
                 x:-14500000,
-                y:6000000,
+                y:4500000,
                 z: 12000000
               },
               heading: 0,
@@ -673,7 +693,7 @@
       // Add the overView div
       mainView.ui.add("overViewDiv");
       // disable all navigation in the overView
-      overView.when(disableNavigation)
+//      overView.when(disableNavigation)
 
         mainView
           .when(maintainFixedExtent)
@@ -843,7 +863,7 @@
               color: [0, 0, 0, 0],
               outline:  {
                 width: 1,
-                color: [255, 0, 0, 1]
+                color: [255, 0, 0, 0]
               }
             }
           });
