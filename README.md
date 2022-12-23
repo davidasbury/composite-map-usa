@@ -39,7 +39,7 @@ By default all inset maps are shown. If your feature service does not include da
 
 ``<base URL>?views=<views>``
 
-where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entries are not case-sensitive. For example:
+where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entries are not case-sensitive. Include any of the following entries to customize your view. For example:
 
 
 ``AK`` = Alaska
@@ -57,6 +57,8 @@ where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entrie
 ``MP`` = Commonwealth of the Northern Mariana Islands
 
 ``UM`` = United States Minor Outlying Islands
+
+``globe`` = Overview map
 
 ``None`` = Continental US only
 
