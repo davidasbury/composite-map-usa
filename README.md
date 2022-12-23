@@ -13,7 +13,7 @@ Sample Code | Composite Views](https://developers.arcgis.com/javascript/latest/s
 
 ## Configure URL parameters
 
-The default url uses a feature service that can be swapped out with a url parameter. Other parameters can be used to change the overview map and show/hide individual inset maps.
+The base url uses a feature service that can be swapped out with a url parameter. Other parameters can be used to change the overview map and show/hide individual inset maps.
 
 ### To change the data being displayed on the map:
 
