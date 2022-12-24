@@ -139,8 +139,8 @@
     <script src="https://js.arcgis.com/4.24/"></script>
     <script type="module" src=https://js.arcgis.com/calcite-components/1.0.0-beta.95/calcite.esm.js></script>
     <link rel="stylesheet" type="text/css" href=https://js.arcgis.com/calcite-components/1.0.0-beta.95/calcite.css />
-
-    <script type="module">
+    <!-- ECM references for local build -->
+<!--  <script type="module">
       import MapView from 'https://js.arcgis.com/4.24/@arcgis/core/views/MapView.js';
       import WebMap from "https://js.arcgis.com/4.24/@arcgis/core/WebMap.js";
       import Map from 'https://js.arcgis.com/4.24/@arcgis/core/Map.js';
@@ -159,7 +159,50 @@
       import Extent from "https://js.arcgis.com/4.24/@arcgis/core/geometry/Extent.js";
       import Point from "https://js.arcgis.com/4.24/@arcgis/core/geometry/Point.js";
       import * as urlUtils from "https://js.arcgis.com/4.24/@arcgis/core/core/urlUtils.js";
-
+-->
+    <!-- AMD Modules -->
+    <script>  
+    require([
+      "esri/views/MapView",
+      "esri/WebMap",
+      "esri/Map",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/Legend",
+      "esri/widgets/Expand",
+      "esri/WebScene",
+      "esri/popup/FieldInfo",
+      "esri/geometry/SpatialReference",
+      "esri/core/reactiveUtils",
+      "esri/views/SceneView",
+      "esri/Graphic",
+      "esri/core/promiseUtils",
+      "esri/geometry/projection",
+      "esri/Basemap",
+      "esri/geometry/Extent",
+      "esri/geometry/Point",
+      "esri/core/urlUtils",
+      "esri/widgets/Measurement"
+    ], (
+      MapView,
+      WebMap,
+      Map,
+      FeatureLayer,
+      Legend,
+      Expand,
+      WebScene,
+      FieldInfo,
+      SpatialReference,
+      reactiveUtils,
+      SceneView,
+      Graphic,
+      promiseUtils,
+      projection,
+      Basemap,
+      Extent,
+      Point,
+      urlUtils,
+      Measurement
+    ) => {
       // Load the projection engine  
         projection.load().then(function() {
         //Projection parameters              
@@ -359,6 +402,9 @@
             //id:"d957997ccee7408287a963600a77f61f" // Current wildfires
             //id:"5e92f2e0930848faa40480bcb4fdc44e" // USA Federal Lands
             //id:"79461a1ec0974301bde274177c7108bd" // Earthquake archive
+            //id:"f097586198b94149965206a8f2471dbf" // USA Territorial Sea Boundary (requires subscriber token)
+            //id:"0ddda259c5c443cc9c5927132644b961" // NOAA Maritime Boundaries (Map Service) 
+            //id:"e2e7bcb7fdaf41f2a97b5f540e0d5433" // 117th Congressional Districts
             id:"dd834ef507244f96baa6b29eab5dd396" // 2019 Population density
 //          id: "67ab7f7c535c4687b6518e6d2343e8a2" // Ocean basemap
 
@@ -889,6 +935,7 @@
     
 console.log("Viewport ratio :",mainView.size[0]/mainView.size[1]);    
       });
+    })
      </script>
   </head>
 
