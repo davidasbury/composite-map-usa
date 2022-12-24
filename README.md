@@ -6,7 +6,7 @@ While the app is responsive and the maps will render on any screen or iframe, th
 
 [Click for a sample](https://davidasbury.github.io/composite-map-usa/)
 
-![Screenshot 2022-12-23 at 3 13 13 PM](https://user-images.githubusercontent.com/6776067/209412615-8b239746-39de-4005-ae72-ad5dbd943c91.png)
+[![Screenshot 2022-12-23 at 3 13 13 PM](https://user-images.githubusercontent.com/6776067/209412615-8b239746-39de-4005-ae72-ad5dbd943c91.png)](https://davidasbury.github.io/composite-map-usa/)
 
 This app is a modification of the Composite Views sample on the ArcGIS Developer site: [ArcGIS Maps SDK for JavaScript
 Sample Code | Composite Views](https://developers.arcgis.com/javascript/latest/sample-code/views-composite-views/)
@@ -67,7 +67,7 @@ Due to layout constraints, some views are paired together. For example, if you'd
 
 [Example showing zip codes and AK/VI views](https://davidasbury.github.io/composite-map-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=ak,vi)
 
-![Screenshot 2022-12-23 at 3 06 56 PM](https://user-images.githubusercontent.com/6776067/209412387-bf696eba-ac44-4a62-a4c1-ec41b75ff4d8.png)
+[![Screenshot 2022-12-23 at 3 06 56 PM](https://user-images.githubusercontent.com/6776067/209412387-bf696eba-ac44-4a62-a4c1-ec41b75ff4d8.png)](https://davidasbury.github.io/composite-map-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=ak,vi)
 
 
 ## Secondary layout
@@ -76,5 +76,5 @@ Use ``index2.html`` to see a second layout that shows Alaska and Hawaii (includi
 
 [Example showing Alaska at true scale](https://davidasbury.github.io/composite-map-usa/index2.html?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&views=ak,hi,pr)
 
-![Screenshot 2022-12-23 at 3 11 11 PM](https://user-images.githubusercontent.com/6776067/209412636-049e2b05-6c73-4118-8192-0d47b94bb032.png)
+[![Screenshot 2022-12-23 at 3 11 11 PM](https://user-images.githubusercontent.com/6776067/209412636-049e2b05-6c73-4118-8192-0d47b94bb032.png)](https://davidasbury.github.io/composite-map-usa/index2.html?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&views=ak,hi,pr)
 
