@@ -510,7 +510,7 @@
       view: mainView,
       activeTool: "distance"
     })
-    mainView.ui.add(measurement, "top-right");*/
+    mainView.ui.add(measurement, "top-right");
 
     // Set-up event handlers for buttons and click events
     const distanceButton = document.getElementById('distance');
@@ -551,7 +551,7 @@
       distanceButton.classList.remove("active");
       areaButton.classList.remove("active");
       measurement.clear();
-    }
+    } */
 
     var akView = new MapView({
           container: "akViewDiv",
@@ -1033,10 +1033,10 @@ console.log("size :",mainView.size[0]/mainView.size[1]);
     <div id="hiViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Hawaii</h1></div></div>
     <div id="prViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Puerto Rico</h1></div>
     <div id="overViewDiv"></div>
-<!--    <div id="toolbarDiv" class="esri-component esri-widget"> -->
+<!--    <div id="toolbarDiv" class="esri-component esri-widget"> 
       <button id="distance" class="esri-widget--button esri-interactive esri-icon-measure-line" title="Distance Measurement Tool"></button>
       <button id="area" class="esri-widget--button esri-interactive esri-icon-measure-area" title="Area Measurement Tool"></button>
       <button id="clear" class="esri-widget--button esri-interactive esri-icon-trash" title="Clear Measurements"></button>
-    </div>
+    </div> -->
   </body>
 </html>
