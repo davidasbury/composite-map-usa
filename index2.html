@@ -13,7 +13,7 @@
       padding: 0;
       margin: 0;
       height: 100%;
-      width: 100%;
+      aspect-ratio: 16/9;
     }
     .esri-ui-top-left {
       height:60% !important;
@@ -32,6 +32,15 @@
     }
     .esri-view-user-storage {
       display: none;
+    }
+    #toolbarDiv {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: default;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
     }
 
     #akViewDiv {
@@ -132,8 +141,8 @@
     <script src="https://js.arcgis.com/4.24/"></script>
     <script type="module" src=https://js.arcgis.com/calcite-components/1.0.0-beta.95/calcite.esm.js></script>
     <link rel="stylesheet" type="text/css" href=https://js.arcgis.com/calcite-components/1.0.0-beta.95/calcite.css />
-
-    <script type="module">
+    <!-- ECM references for local build -->
+<!--  <script type="module">
       import MapView from 'https://js.arcgis.com/4.24/@arcgis/core/views/MapView.js';
       import WebMap from "https://js.arcgis.com/4.24/@arcgis/core/WebMap.js";
       import Map from 'https://js.arcgis.com/4.24/@arcgis/core/Map.js';
@@ -152,7 +161,51 @@
       import Extent from "https://js.arcgis.com/4.24/@arcgis/core/geometry/Extent.js";
       import Point from "https://js.arcgis.com/4.24/@arcgis/core/geometry/Point.js";
       import * as urlUtils from "https://js.arcgis.com/4.24/@arcgis/core/core/urlUtils.js";
-
+      import Measurement from "https://js.arcgis.com/4.24/@arcgis/core/widgets/Measurement.js";
+-->
+    <!-- AMD Modules -->
+    <script>  
+    require([
+      "esri/views/MapView",
+      "esri/WebMap",
+      "esri/Map",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/Legend",
+      "esri/widgets/Expand",
+      "esri/WebScene",
+      "esri/popup/FieldInfo",
+      "esri/geometry/SpatialReference",
+      "esri/core/reactiveUtils",
+      "esri/views/SceneView",
+      "esri/Graphic",
+      "esri/core/promiseUtils",
+      "esri/geometry/projection",
+      "esri/Basemap",
+      "esri/geometry/Extent",
+      "esri/geometry/Point",
+      "esri/core/urlUtils",
+      "esri/widgets/Measurement"
+    ], (
+      MapView,
+      WebMap,
+      Map,
+      FeatureLayer,
+      Legend,
+      Expand,
+      WebScene,
+      FieldInfo,
+      SpatialReference,
+      reactiveUtils,
+      SceneView,
+      Graphic,
+      promiseUtils,
+      projection,
+      Basemap,
+      Extent,
+      Point,
+      urlUtils,
+      Measurement
+    ) => {
       // Load the projection engine  
         projection.load().then(function() {
         //Projection parameters              
@@ -443,16 +496,63 @@
           }
         });
 
-        const cardLegend = new Expand({
-          content: new Legend({
-            view: mainView,
-            style: "card"
-            }),
-          view: mainView,
-          expanded: false
-          })
-        mainView.ui.add(cardLegend, "bottom-right");
-       
+    const cardLegend = new Expand({
+      content: new Legend({
+        view: mainView,
+        style: "card"
+        }),
+      view: mainView,
+      expanded: false
+      })
+    mainView.ui.add(cardLegend, "bottom-right");
+
+/*    const measurement = new Measurement({
+      view: mainView,
+      activeTool: "distance"
+    })
+    mainView.ui.add(measurement, "top-right");*/
+
+    // Set-up event handlers for buttons and click events
+    const distanceButton = document.getElementById('distance');
+    const areaButton = document.getElementById('area');
+    const clearButton = document.getElementById('clear');
+
+    distanceButton.addEventListener("click", () => {
+          distanceMeasurement();
+    });
+    areaButton.addEventListener("click", () => {
+      areaMeasurement();
+    });
+    clearButton.addEventListener("click", () => {
+      clearMeasurements();
+    });
+    // Switch between area and distance measurement
+    function switchTool() {
+      const tool = measurement.activeTool === "distance" ? "area" : "distance";
+      measurement.activeTool = tool;
+    }
+    // Call the appropriate DistanceMeasurement2D or DirectLineMeasurement3D
+    function distanceMeasurement() {
+      const type = activeView.type;
+      measurement.activeTool = type.toUpperCase() === "2D" ? "distance" : "direct-line";
+      distanceButton.classList.add("active");
+      areaButton.classList.remove("active");
+    }
+
+    // Call the appropriate AreaMeasurement2D or AreaMeasurement3D
+    function areaMeasurement() {
+      measurement.activeTool = "area";
+      distanceButton.classList.remove("active");
+      areaButton.classList.add("active");
+    }
+
+    // Clears all measurements
+    function clearMeasurements() {
+      distanceButton.classList.remove("active");
+      areaButton.classList.remove("active");
+      measurement.clear();
+    }
+
     var akView = new MapView({
           container: "akViewDiv",
           map: map,
@@ -917,6 +1017,7 @@
     
 console.log("size :",mainView.size[0]/mainView.size[1]);    
       });
+    })
      </script>
   </head>
 
@@ -932,5 +1033,10 @@ console.log("size :",mainView.size[0]/mainView.size[1]);
     <div id="hiViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Hawaii</h1></div></div>
     <div id="prViewDiv" class="esri-widget"><h1 style="font-size:1vw;">Puerto Rico</h1></div>
     <div id="overViewDiv"></div>
+<!--    <div id="toolbarDiv" class="esri-component esri-widget"> -->
+      <button id="distance" class="esri-widget--button esri-interactive esri-icon-measure-line" title="Distance Measurement Tool"></button>
+      <button id="area" class="esri-widget--button esri-interactive esri-icon-measure-area" title="Area Measurement Tool"></button>
+      <button id="clear" class="esri-widget--button esri-interactive esri-icon-trash" title="Clear Measurements"></button>
+    </div>
   </body>
 </html>
