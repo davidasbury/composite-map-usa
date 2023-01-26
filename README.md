@@ -39,7 +39,7 @@ By default all inset maps are shown. If your feature service does not include da
 
 ``<base URL>?views=<views>``
 
-where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entries are not case-sensitive. Include any of the following entries to customize your view. For example:
+where ``<views>`` is a comma separated list of the [ISO 3166 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) for each area of interest. Entries are not case-sensitive. Include any of the following entries to customize your view. For example:
 
 
 ``AK`` = Alaska
@@ -63,7 +63,7 @@ where ``<views>`` is the ISO 3166 alpha-2 code for each area of interest. Entrie
 ``None`` = Continental US only
 
 
-Due to layout constraints, some views are paired together. For example, if you'd like to see Puerto Rico, you will also see the US Virgin Islands. The same is true for Guam/Northern Marianas. Alaska and Hawaii can also not be displayed indvidually and the Alaska/Hawaii insets will always be shown when choosing either American Samoa or Guam/Northern Marianas.
+Due to layout constraints, some views are paired together. For example, if you'd like to see Puerto Rico, you will also see the US Virgin Islands. The same is true for Guam/Northern Marianas. Alaska and Hawaii can also not be displayed individually and the Alaska/Hawaii insets will always be shown when choosing either American Samoa or Guam/Northern Marianas.
 
 [Example showing zip codes and AK/VI views](https://davidasbury.github.io/composite-map-usa/?featurelayer=c93f8a9f2a614ff8a31db732636eff9b&overview=67ab7f7c535c4687b6518e6d2343e8a2&views=ak,vi)
 
